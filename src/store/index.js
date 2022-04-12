@@ -1,8 +1,16 @@
 import { createStore } from "vuex";
 import { USER_INFO, COMPOSTS, MY_COMPOSTS } from "@/graphql/queries";
-import { CREATE_USER, CREATE_COMPOST } from "@/graphql/mutations";
+import {
+  CREATE_USER,
+  REMOVE_USER,
+  UPDATE_USER,
+  CREATE_COMPOST,
+  REMOVE_COMPOST,
+  UPDATE_COMPOST,
+} from "@/graphql/mutations";
 import { apolloClient } from "../apollo.provider";
 import { version } from "../../package.json";
+import compostsMap from "../graphql/compostsMap";
 
 export default createStore({
   state: {
@@ -12,38 +20,47 @@ export default createStore({
     user: {},
     authStatus: false,
     composts: [],
+    compostType: compostsMap.TYPE,
+    compostTypeColortoto: {
+      public: "primary-darken-1",
+      private: "secondary-darken-1",
+    },
   },
 
   getters: {
     authStatus: (state) => state.authStatus,
     user: (state) => state.user,
-    compostsList: (state) => {
-      let compostList = [];
+    compostById: (state) => (id) => {
+      return state.composts.filter((compost) => compost._id === id._id)[0];
+    },
+    composts: (state) => state.composts,
+    compostTypeName: (state) => (type) => {
+      return state.compostType[type];
+    },
+    compostType: (state) => (name) => {
+      return Object.keys(state.compostType).find(
+        (key) => state.compostType[key] === name
+      );
+    },
+    compostTypeColor: (state) => (type) => {
+      return state.compostTypeColortoto[type];
+    },
 
-      if (Object.keys(state.composts).length > 0) {
-        const data = Object.values(state.composts);
-        compostList = data.map(function (value) {
-          return {
-            title: value.title,
-            subtitle: value.address.city,
-            type: value.type,
-            icon: "mdi-map-marker-circle",
-            color:
-              value.type == "public"
-                ? "green darken-2"
-                : value[0].type == "private"
-                ? "blue darken-2"
-                : "blue-grey darken-2",
-          };
-        });
-      }
-      return compostList;
+    compostFavoriteColor: (state) => (id) => {
+      return state.user.favorites.filter((favorite) => {
+        return favorite === id;
+      })[0]
+        ? "#f44336"
+        : "default";
     },
   },
 
   mutations: {
     setComposts(state, data) {
       state.composts = data;
+    },
+    setUser(state, data) {
+      state.user = data;
     },
     setStore(state, data) {
       state.authStatus = true;
@@ -54,6 +71,7 @@ export default createStore({
       state.authStatus = false;
       state.token = "";
       state.user = {};
+      state = false;
     },
     initialiseStorage(state) {
       // Check if the store exists
@@ -71,13 +89,33 @@ export default createStore({
   },
 
   actions: {
-    async getComposts({ commit }) {
+    async getAllComposts({ commit }) {
       const { data } = await apolloClient.query({
         query: COMPOSTS,
         fetchPolicy: "no-cache",
       });
-      commit("setComposts", data.composts);
-      return data.composts;
+      if (data.composts) {
+        commit("setComposts", data.composts);
+        await apolloClient.resetStore();
+      }
+      return await data.composts;
+    },
+
+    async getFavoritesComposts({ commit, state }) {
+      const { data } = await apolloClient.query({
+        query: COMPOSTS,
+        fetchPolicy: "no-cache",
+      });
+
+      if (data.composts) {
+        const composts = data.composts;
+        const favoritesComposts = composts.filter((compost) =>
+          state.user.favorites.includes(compost._id)
+        );
+        commit("setComposts", favoritesComposts);
+        await apolloClient.resetStore();
+        return await favoritesComposts;
+      }
     },
 
     async getMyComposts({ commit }) {
@@ -85,18 +123,120 @@ export default createStore({
         query: MY_COMPOSTS,
         fetchPolicy: "no-cache",
       });
-      commit("setComposts", data.myComposts);
-      return data.myComposts;
+      if (data.myComposts) {
+        commit("setComposts", data.myComposts);
+        await apolloClient.resetStore();
+        return await data.myComposts;
+      }
     },
 
-    async addCompost({ dispatch }, addressInput) {
+    async getUserInfo({ commit }, email) {
+      const { data } = await apolloClient.query({
+        query: USER_INFO,
+        variables: { email: email },
+      });
+      if (data.user) {
+        commit("setUser", data.user);
+        await apolloClient.resetStore();
+        return await data.user;
+      }
+    },
+
+    async addCompost({ dispatch }, compostInput) {
       const res = await apolloClient.mutate({
         mutation: CREATE_COMPOST,
-        variables: { ...addressInput },
+        variables: compostInput,
       });
-      return res;
+      if (res.data.createCompost.title) {
+        await dispatch("getMyComposts");
+        return await res.data.createCompost.title;
+      }
     },
+    async removeCompost({ dispatch }, _id) {
+      const res = await apolloClient.mutate({
+        mutation: REMOVE_COMPOST,
+        variables: { _id: _id },
+      });
+      if (res.data.removeCompost.title) {
+        await dispatch("getMyComposts");
+        return await res.data.removeCompost.title;
+      }
+    },
+    async removeUserCompost() {
+      const { data } = await apolloClient.query({
+        query: MY_COMPOSTS,
+        fetchPolicy: "no-cache",
+      });
+      if (data.myComposts) {
+        let promises = [];
+        data.myComposts.forEach((compost) => {
+          promises.push(
+            new Promise((resolve, reject) => {
+              apolloClient
+                .mutate({
+                  mutation: REMOVE_COMPOST,
+                  variables: { _id: compost._id },
+                })
+                .then((res) => {
+                  resolve(res);
+                })
+                .catch((err) => reject(err));
+            })
+          );
+        });
+        return await Promise.all(promises);
+      }
+    },
+    async updateCompost({ dispatch }, compostInput) {
+      const res = await apolloClient.mutate({
+        mutation: UPDATE_COMPOST,
+        variables: compostInput,
+      });
+      if (res.data.updateCompost.title) {
+        await dispatch("getMyComposts");
+        return await res.data.updateCompost.title;
+      }
+    },
+    async updateFavorite({ dispatch, state }, data) {
+      let favorites = [...state.user.favorites];
+      const toRemove = favorites.includes(data._id);
 
+      if (toRemove) {
+        favorites = favorites.filter((favorite) => {
+          return favorite !== data._id;
+        });
+      } else {
+        favorites.push(data._id);
+      }
+      await dispatch("updateUser", {
+        _id: state.user._id,
+        favorites: favorites,
+      });
+      if (data.filter === "fav" && toRemove) {
+        await dispatch("getFavoritesComposts");
+      }
+      return await toRemove;
+    },
+    async updateUser({ dispatch }, userInput) {
+      const res = await apolloClient.mutate({
+        mutation: UPDATE_USER,
+        variables: userInput,
+      });
+      if (res.data.updateUser) {
+        await dispatch("getUserInfo", res.data.updateUser.email);
+        return await res.data.updateUser.email;
+      }
+    },
+    async removeUser({ dispatch }, email) {
+      const res = await apolloClient.mutate({
+        mutation: REMOVE_USER,
+        variables: { email: email },
+      });
+      if (res.data.removeUser.email) {
+        await dispatch("signOut");
+        return res.data.removeUser.email;
+      }
+    },
     async signUp({ dispatch }, authDetails) {
       const res = await apolloClient.mutate({
         mutation: CREATE_USER,
@@ -109,13 +249,19 @@ export default createStore({
             username: authDetails.email,
             password: authDetails.password,
           });
+          apolloClient.resetStore();
           return await res.data.createUser.email;
         }
       }
     },
 
-    async signIn({ commit }, authDetails) {
-      const res = await fetch("http://localhost:3000/auth/login", {
+    async signIn({ dispatch }, authDetails) {
+      let url = import.meta.env.VITE_BACKEND_URI + "/login";
+      if (authDetails.social) {
+        url = url + "/" + authDetails.social;
+      }
+
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -123,22 +269,22 @@ export default createStore({
         },
         body: JSON.stringify(authDetails),
       });
-
-      const json = await res.json();
-      if (json.access_token) {
-        if (authDetails.username) {
-          const { data } = await apolloClient.query({
-            query: USER_INFO,
-            variables: { email: authDetails.username },
-          });
-          commit("setStore", { token: json.access_token, ...data });
-          await apolloClient.resetStore();
+      const data = await res.json();
+      if (data.access_token) {
+        if (data.email) {
+          await dispatch("setStoreInfo", data);
+          return data.email;
         }
       } else {
         throw "Email ou mot de passe incorrect !";
       }
     },
-
+    async setStoreInfo({ commit, dispatch }, data) {
+      const userInfo = await dispatch("getUserInfo", data.email);
+      commit("setStore", { token: data.access_token, user: userInfo });
+      await apolloClient.resetStore();
+      return true;
+    },
     async signOut({ commit }) {
       commit("unSetStore");
       await apolloClient.resetStore();

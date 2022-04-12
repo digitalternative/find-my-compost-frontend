@@ -6,6 +6,7 @@ export const USER_INFO = gql`
       username
       email
       roles
+      favorites
       _id
     }
   }
@@ -16,6 +17,8 @@ export const MY_COMPOSTS = gql`
     myComposts {
       _id
       title
+      manager
+      email
       address {
         street
         zipcode
@@ -41,6 +44,8 @@ export const COMPOSTS = gql`
     composts {
       _id
       title
+      manager
+      email
       address {
         street
         zipcode

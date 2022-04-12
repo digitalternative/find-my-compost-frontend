@@ -1,51 +1,65 @@
 <template>
   <v-app>
     <v-layout>
-      <v-app-bar>
-        <v-app-bar-nav-icon
-          variant="text"
-          @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
-        <v-app-bar-title>Find My Compost</v-app-bar-title>
+      <v-app-bar color="primary">
+        <v-app-bar-title>
+          <router-link
+            style="text-decoration: none"
+            to="/"
+            v-slot="{ href, navigate }"
+          >
+            <img
+              :src="logoSrc"
+              alt="Find My Compost"
+              height="48"
+              :href="href"
+              @click="navigate"
+            />
+          </router-link>
+        </v-app-bar-title>
         <v-spacer></v-spacer>
 
         <template v-slot:append v-if="authStatus">
-          <v-list-item
-            two-line
-            :prepend-avatar="user.avatar"
-            :title="user.username"
-            subtitle="Logged in"
-          ></v-list-item>
+          <UserMenuComponent />
         </template>
         <template v-slot:append v-else>
-          <Login />
+          <template v-if="!authStatus">
+            <router-link
+              style="text-decoration: none"
+              to="/login"
+              v-slot="{ href, navigate }"
+            >
+              <v-btn
+                color="white"
+                dark
+                stacked
+                variant="contained-text"
+                :href="href"
+                @click="navigate"
+              >
+                <v-icon icon="mdi-login"></v-icon>
+
+                Login
+              </v-btn>
+            </router-link>
+          </template>
+          <template v-else><Login /></template>
         </template>
       </v-app-bar>
 
-      <v-navigation-drawer v-model="drawer" bottom temporary>
-        <CompostListComponent />
-
-        <template v-slot:append>
-          <div class="pa-2" v-if="authStatus">
-            <v-btn v-on:click="signOutUser" block> Logout </v-btn>
-          </div>
-        </template>
-      </v-navigation-drawer>
-
-      <v-main>
-        <router-view />
-      </v-main>
-
-      <v-bottom-navigation :value="value" color="primary">
-        <v-btn value="composts" to="/">
+      <v-bottom-navigation
+        color="white"
+        bg-color="secondary"
+        v-model="bottomNav"
+      >
+        <v-btn to="/" value="home">
           <v-icon size="24">mdi-home</v-icon>
         </v-btn>
 
-        <v-btn value="composts" to="/composts/all">
+        <v-btn to="/composts/all" value="all">
           <v-icon size="24">mdi-map-marker</v-icon>
         </v-btn>
-
-        <v-btn value="mycomposts" to="/composts/my" v-if="authStatus">
+        <v-btn to="/composts/my" v-if="authStatus" value="my">
           <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -53,48 +67,82 @@
             />
           </svg>
         </v-btn>
+        <v-btn to="/composts/fav" v-if="authStatus" value="fav">
+          <v-icon size="24">mdi-heart</v-icon>
+        </v-btn>
       </v-bottom-navigation>
+      <v-main>
+        <router-view />
+      </v-main>
     </v-layout>
   </v-app>
 </template>
 
 <script>
-import Login from "./components/LoginComponent.vue";
-import CompostListComponent from "./components/CompostListComponent.vue";
+import Login from "./views/Login.vue";
+import UserMenuComponent from "./components/UserMenuComponent.vue";
+
 import { mapGetters, mapState, mapActions } from "vuex";
+import { useDisplay } from "vuetify";
+import logo from "@/assets/logo.svg";
+import logoTitle from "@/assets/logo_title.svg";
 
 export default {
   name: "App",
   components: {
     Login,
-    CompostListComponent,
+    UserMenuComponent,
   },
-
   data() {
     return {
       appName: "Find My Compost",
+      navigation: 1,
       selectedItem: 0,
       drawer: false,
       group: null,
       state: true,
-      value: 1,
+      bottomNav: "home",
     };
   },
   computed: {
     ...mapGetters(["authStatus"]),
     ...mapState(["user"]),
-  },
-  methods: {
-    ...mapActions(["signOut", "setUser"]),
-    signOutUser: function () {
-      this.signOut().then(() => this.$router.push("/"));
+    logoSrc: function () {
+      const { name } = useDisplay();
+      switch (name.value) {
+        case "xs":
+          return logo;
+        case "sm":
+          return logoTitle;
+        case "md":
+          return logoTitle;
+        case "lg":
+          return logoTitle;
+        case "xl":
+          return logoTitle;
+        default:
+          return logoTitle;
+      }
     },
   },
-
+  methods: {
+    ...mapActions(["signIn"]),
+  },
   beforeCreate() {
     this.$store.commit("initialiseStorage");
-
-    //@todo check valid token
+  },
+  watch: {
+    "$route.path": {
+      handler: function (path) {
+        if (path.split("/").pop()) {
+          this.bottomNav = path.split("/").pop();
+        } else {
+          this.bottomNav = "home";
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
 };
 </script>

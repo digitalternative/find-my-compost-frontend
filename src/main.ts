@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import * as apolloProvider from "./apollo.provider.js";
 import { DefaultApolloClient } from "@vue/apollo-composable";
-import { createDynamicForms } from "@asigloo/vue-dynamic-forms";
 
 import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
@@ -24,7 +23,6 @@ library.add(far);
 import { dom } from "@fortawesome/fontawesome-svg-core";
 dom.watch();
 
-const VueDynamicForms = createDynamicForms();
 const app = createApp({
   setup() {
     provide(DefaultApolloClient, apolloProvider.apolloClient);
@@ -38,7 +36,6 @@ store.subscribe((mutation, state) => {
   localStorage.setItem("store", JSON.stringify(state));
 });
 
-app.use(VueDynamicForms);
 app.use(vuetify);
 app.use(store);
 app.use(router);

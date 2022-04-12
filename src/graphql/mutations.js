@@ -24,9 +24,35 @@ export const CREATE_USER = gql`
 `;
 
 export const REMOVE_USER = gql`
-  mutation removeUser($username: String!) {
-    removeUser(username: $username) {
-      username
+  mutation removeUser($email: String!) {
+    removeUser(email: $email) {
+      email
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser(
+    $_id: String!
+    $username: String
+    $password: String
+    $passwordConfirm: String
+    $email: String
+    $roles: [String]
+    $favorites: [String]
+  ) {
+    updateUser(
+      updateUserInput: {
+        _id: $_id
+        username: $username
+        password: $password
+        passwordConfirm: $passwordConfirm
+        email: $email
+        roles: $roles
+        favorites: $favorites
+      }
+    ) {
+      email
     }
   }
 `;
@@ -36,6 +62,7 @@ export const CREATE_COMPOST = gql`
   mutation createCompost(
     $title: String!
     $email: String
+    $manager: String!
     $type: String
     $phone: String
     $website: String
@@ -51,6 +78,7 @@ export const CREATE_COMPOST = gql`
         {
           title: $title
           email: $email
+          manager: $manager
           type: $type
           phone: $phone
           website: $website
@@ -63,6 +91,52 @@ export const CREATE_COMPOST = gql`
           user: $user
         }
       ]
+    ) {
+      title
+    }
+  }
+`;
+
+export const REMOVE_COMPOST = gql`
+  mutation removeCompost($_id: String!) {
+    removeCompost(_id: $_id) {
+      title
+    }
+  }
+`;
+
+// type = ['private' or 'public']
+export const UPDATE_COMPOST = gql`
+  mutation updateCompost(
+    $_id: String!
+    $title: String!
+    $email: String
+    $manager: String!
+    $type: String
+    $phone: String
+    $website: String
+    $street: String
+    $city: String
+    $zipcode: Int
+    $lat: Float!
+    $lng: Float!
+  ) {
+    updateCompost(
+      updateCompostInput: {
+        _id: $_id
+        title: $title
+        email: $email
+        manager: $manager
+        type: $type
+        phone: $phone
+        website: $website
+        address: {
+          street: $street
+          city: $city
+          zipcode: $zipcode
+          coordinates: { lat: $lat, lng: $lng }
+        }
+      }
     ) {
       title
     }

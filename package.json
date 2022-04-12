@@ -1,13 +1,14 @@
 {
   "name": "find-my-compost-ts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
     "test:unit": "cypress open-ct",
     "test:e2e": "start-server-and-test preview http://127.0.0.1:5050/ 'cypress open'",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "dev": "vite",
+    "dev": "vite --mode development",
+    "prod": "vite --mode production",
     "preview": "vite preview --port 5050",
     "test:e2e:ci": "start-server-and-test preview http://127.0.0.1:5050/ 'cypress run'",
     "test:unit:ci": "cypress run-ct --quiet --reporter spec",
@@ -30,9 +31,13 @@
     "core-js": "^3.6.5",
     "graphql": "^15.8.0",
     "graphql-tag": "^2.12.6",
+    "hammerjs": "^2.0.8",
     "help": "^3.0.2",
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "^3.6.0",
+    "mapbox-gl": "^2.7.1",
+    "mapbox-gl-animated-popup": "^0.2.1",
+    "md5": "^2.3.0",
     "node-sass": "^7.0.1",
     "react": "^17.0.2",
     "register-service-worker": "^1.7.1",
@@ -68,8 +73,11 @@
     "typescript": "~4.5.5",
     "vite": "^2.8.4",
     "vite-plugin-fonts": "^0.2.2",
+    "vite-plugin-mkcert": "^1.6.0",
+    "vite-plugin-pwa": "^0.11.13",
     "vue-cli-plugin-vuetify": "~2.4.7",
     "vue-tsc": "^0.31.4",
-    "vuetify-loader": "^2.0.0-alpha.0"
+    "vuetify-loader": "^2.0.0-alpha.0",
+    "workbox-precaching": "^6.5.1"
   }
 }

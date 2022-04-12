@@ -1,6 +1,16 @@
 <template>
+  <v-text-field
+    v-model="address"
+    :rules="addressRules"
+    label="Ajouter une adresse"
+    append-inner-icon="mdi-map-marker-plus"
+    required
+    variant="outlined"
+    density="compact"
+    readonly
+    @click="addressDialog = true"
+  ></v-text-field>
   <v-row justify="center">
-    <v-btn color="primary" @click="addressDialog = true"> Open Dialog </v-btn>
     <v-dialog
       v-model="addressDialog"
       fullscreen
@@ -13,10 +23,10 @@
         <v-toolbar-title>Adresse</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn dark text @click="addressDialog = false"> Ajouter </v-btn>
+          <v-btn dark text @click="addAddress"> Ajouter </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-card>
+      <v-card flat>
         <div class="modal-body">
           <div class="form-group">
             <input
@@ -42,11 +52,11 @@
             />
           </div>
         </div>
+        <p class="p-2 bd-highlight">
+          Cliquer sur la carte pour ajouter une adresse.
+        </p>
         <div class="p-2 bd-highlight">
-          Cliquer sur la carte ou rechercher une adresse.
-        </div>
-        <div class="p-2 bd-highlight">
-          <div id="mapaddress-container" ref="mapComponent"></div>
+          <MapComponent :isAddCompost="true" @clickOnMap="getAddress" />
         </div>
       </v-card>
     </v-dialog>
@@ -54,64 +64,39 @@
 </template>
 
 <script>
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-
-import { OpenStreetMapProvider } from "leaflet-geosearch";
-import { GeoSearchControl } from "leaflet-geosearch";
-import "leaflet-geosearch/assets/css/leaflet.css";
+import MapComponent from "../components/MapComponent.vue";
 
 export default {
   name: "address-component",
+  components: {
+    MapComponent,
+  },
   data() {
     return {
       addressDialog: false,
-      map: null,
-      marker: null,
-      address: {},
       street: "",
       zipcode: "",
       city: "",
+      addressRules: [(v) => !!v || "L'adresse est requis"],
     };
   },
+  emits: ["updateAddressDatas"],
+  props: {
+    addressDatas: {
+      type: Object,
+    },
+    address: {
+      type: String,
+    },
+  },
   methods: {
-    initMap() {
-      this.map = L.map("mapaddress-container").setView([50.84673, 4.35247], 8);
-      this.map.on("click", (e) => {
-        this.onClickHandler(e);
-      });
-      L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(this.map);
-      const provider = new OpenStreetMapProvider();
-      const searchControl = new GeoSearchControl({
-        provider,
-      });
-
-      this.map.addControl(searchControl);
-    },
-    reloadMap() {
-      if (this.map) {
-        setTimeout(() => {
-          this.map.invalidateSize();
-          this.map.eachLayer((layer) => {
-            if (layer instanceof L.Marker) {
-              layer.openPopup();
-            }
-          });
-        }, 1500);
-      }
-    },
-    onClickHandler(e) {
-      const latlng = Object.values(e.latlng);
+    getAddress(lngLat) {
       var data = {
         format: "jsonv2",
-        lat: latlng[0],
-        lon: latlng[1],
+        lat: lngLat.lat,
+        lon: lngLat.lng,
       };
-      if (this.marker) this.map.removeLayer(this.marker);
-      this.marker = L.marker([latlng[0], latlng[1]]).addTo(this.map);
+
       var url = new URL("https://nominatim.openstreetmap.org/reverse");
       for (let k in data) {
         url.searchParams.append(k, data[k]);
@@ -139,50 +124,21 @@ export default {
               break;
             }
           }
-          this.address = {
+          this.addressinput = {
             addressDisplay: response.display_name,
             data: {
               street: this.street,
               zipcode: this.zipcode,
               city: this.city,
-              lat: latlng[0],
-              lng: latlng[1],
+              lat: parseFloat(lngLat.lat),
+              lng: parseFloat(lngLat.lng),
             },
           };
         });
     },
-    close() {
-      this.$emit("close");
-    },
     addAddress() {
-      this.$emit("addAddressInput", this.address);
-    },
-  },
-  async mounted() {
-    console.log("mounted");
-    await new Promise((resolve) => {
-      const stop = this.$watch("addressDialog", () => resolve(stop()));
-    });
-    console.log("initmap");
-    this.initMap();
-    window.addEventListener("resize", this.reloadMap());
-    this.$nextTick(() => {
-      this.reloadMap();
-    });
-  },
-  beforeUnmount() {
-    if (this.map) {
-      console.log("destroy");
-
-      this.map.remove();
-    }
-  },
-  watch: {
-    addressDialog: function (newDialog, oldDialog) {
-      if (newDialog && this.map) {
-        console.log("reload");
-        this.reloadMap();
-      }
+      this.$emit("updateAddressDatas", this.addressinput);
+      this.addressDialog = false;
     },
   },
 };

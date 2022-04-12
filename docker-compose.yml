@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+    find-my-compost-frontend:
+        ports:
+            - '8080:8080'
+        container_name: find-my-compost-frontend
+        image: vuejs-cookbook/dockerize-vuejs-app
