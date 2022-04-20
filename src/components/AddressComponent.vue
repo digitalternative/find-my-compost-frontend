@@ -82,9 +82,6 @@ export default {
   },
   emits: ["updateAddressDatas"],
   props: {
-    addressDatas: {
-      type: Object,
-    },
     address: {
       type: String,
     },
