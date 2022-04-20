@@ -78,6 +78,7 @@ export default {
       city: "",
       addressRules: [(v) => !!v || "L'adresse est requis"],
       addressInput: "",
+      addressDatas: {},
     };
   },
   emits: ["updateAddressDatas"],
@@ -121,25 +122,22 @@ export default {
               break;
             }
           }
-          this.addressinput = {
-            addressDisplay: response.display_name,
-            data: {
-              street: this.street,
-              zipcode: this.zipcode,
-              city: this.city,
-              lat: parseFloat(lngLat.lat),
-              lng: parseFloat(lngLat.lng),
-            },
+          this.addressInput = response.display_name;
+          this.addressDatas = {
+            street: this.street,
+            zipcode: this.zipcode,
+            city: this.city,
+            lat: parseFloat(lngLat.lat),
+            lng: parseFloat(lngLat.lng),
           };
         });
     },
     addAddress() {
-      this.$emit("updateAddressDatas", this.addressinput);
+      this.$emit("updateAddressDatas", this.addressDatas);
       this.addressDialog = false;
     },
   },
   watch: {
-    // `visible(value) => this.isVisible = value` could work too
     address() {
       this.addressInput = this.$props.address;
     },
