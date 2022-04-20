@@ -1,60 +1,71 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field
-      variant="outlined"
-      density="compact"
-      v-model="title"
-      :counter="20"
-      :rules="titleRules"
-      label="Titre"
-      required
-    ></v-text-field>
-    <v-text-field
-      variant="outlined"
-      density="compact"
-      v-model="manager"
-      :counter="20"
-      :rules="managerRules"
-      label="Nom du gestionnaire"
-      required
-    ></v-text-field>
-    <v-select
-      variant="outlined"
-      density="compact"
-      v-model="type"
-      :items="types"
-      :rules="typesRules"
-      label="Type"
-      required
-    ></v-select>
-    <v-text-field
-      variant="outlined"
-      density="compact"
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail de contact"
-      required
-    ></v-text-field>
-    <v-text-field
-      variant="outlined"
-      density="compact"
-      v-model="phone"
-      :counter="10"
-      :rules="phoneRules"
-      label="Téléphone"
-    ></v-text-field>
-    <v-text-field
-      variant="outlined"
-      density="compact"
-      v-model="website"
-      :counter="10"
-      :rules="websiteRules"
-      label="Site web"
-    ></v-text-field>
-    <AddressComponent
-      @updateAddressDatas="setAddressDatas"
-      :address="address"
-    />
+    <v-card flat>
+      <v-card-header>
+        <v-card-header-text>
+          <v-card-subtitle>Informations</v-card-subtitle>
+        </v-card-header-text>
+      </v-card-header>
+
+      <v-card-text>
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="title"
+          :counter="20"
+          :rules="titleRules"
+          label="Titre"
+          required
+        ></v-text-field>
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="manager"
+          :counter="20"
+          :rules="managerRules"
+          label="Nom du gestionnaire"
+          transition="false"
+          required
+        ></v-text-field>
+        <AddressComponent
+          @updateAddressDatas="setAddressDatas"
+          :address="address"
+        />
+        <CompostImageComponent></CompostImageComponent>
+      </v-card-text>
+      <v-card-header>
+        <v-card-header-text>
+          <v-card-subtitle>Contact</v-card-subtitle>
+        </v-card-header-text>
+      </v-card-header>
+
+      <v-card-text>
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="email"
+          :rules="emailRules"
+          label="E-mail"
+          required
+        ></v-text-field>
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="phone"
+          :counter="10"
+          :rules="phoneRules"
+          label="Téléphone"
+        ></v-text-field>
+        <v-text-field
+          variant="outlined"
+          density="compact"
+          v-model="website"
+          :counter="10"
+          :rules="websiteRules"
+          label="Site web"
+        ></v-text-field>
+      </v-card-text>
+    </v-card>
     <v-card-actions class="pr-0">
       <v-spacer></v-spacer>
       <v-btn
@@ -74,13 +85,14 @@
 
 <script>
 import AddressComponent from "../components/AddressComponent.vue";
-
+import CompostImageComponent from "../components/CompostImageComponent.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "compost-form-component",
   components: {
     AddressComponent,
+    CompostImageComponent,
   },
   props: {
     compost: {
