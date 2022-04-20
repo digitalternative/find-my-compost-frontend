@@ -1,8 +1,8 @@
 <template>
   <v-text-field
-    v-model="address"
+    v-model="addressInput"
     :rules="addressRules"
-    label="Ajouter une adresse"
+    label="Adresse"
     append-inner-icon="mdi-map-marker-plus"
     required
     variant="outlined"
@@ -10,57 +10,56 @@
     readonly
     @click="addressDialog = true"
   ></v-text-field>
-  <v-row justify="center">
-    <v-dialog
-      v-model="addressDialog"
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
-      <v-toolbar dark color="primary">
-        <v-btn icon dark @click="addressDialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Adresse</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="addAddress"> Ajouter </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-card flat>
-        <div class="modal-body">
-          <div class="form-group">
-            <input
-              v-model="street"
-              type="text"
-              class="form-control mt-1"
-              placeholder="Rue"
-              disabled
-            />
-            <input
-              v-model="zipcode"
-              type="text"
-              class="form-control mt-1"
-              placeholder="Code postal"
-              disabled
-            />
-            <input
-              v-model="city"
-              type="text"
-              class="form-control mt-1"
-              placeholder="Ville"
-              disabled
-            />
-          </div>
+
+  <v-dialog
+    v-model="addressDialog"
+    fullscreen
+    transition="dialog-bottom-transition"
+  >
+    <v-toolbar dark color="primary">
+      <v-btn icon dark @click="addressDialog = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Adresse</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn dark text @click="addAddress"> Ajouter </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-card flat>
+      <div class="modal-body">
+        <div class="form-group">
+          <input
+            v-model="street"
+            type="text"
+            class="form-control mt-1"
+            placeholder="Rue"
+            disabled
+          />
+          <input
+            v-model="zipcode"
+            type="text"
+            class="form-control mt-1"
+            placeholder="Code postal"
+            disabled
+          />
+          <input
+            v-model="city"
+            type="text"
+            class="form-control mt-1"
+            placeholder="Ville"
+            disabled
+          />
         </div>
-        <p class="p-2 bd-highlight">
-          Cliquer sur la carte pour ajouter une adresse.
-        </p>
-        <div class="p-2 bd-highlight">
-          <MapComponent :isAddCompost="true" @clickOnMap="getAddress" />
-        </div>
-      </v-card>
-    </v-dialog>
-  </v-row>
+      </div>
+      <p class="p-2 bd-highlight">
+        Cliquer sur la carte pour ajouter une adresse.
+      </p>
+      <div class="p-2 bd-highlight">
+        <MapComponent :isAddCompost="true" @clickOnMap="getAddress" />
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -78,6 +77,7 @@ export default {
       zipcode: "",
       city: "",
       addressRules: [(v) => !!v || "L'adresse est requis"],
+      addressInput: "",
     };
   },
   emits: ["updateAddressDatas"],
@@ -139,6 +139,12 @@ export default {
     addAddress() {
       this.$emit("updateAddressDatas", this.addressinput);
       this.addressDialog = false;
+    },
+  },
+  watch: {
+    // `visible(value) => this.isVisible = value` could work too
+    address() {
+      this.addressInput = this.$props.address;
     },
   },
 };
