@@ -13,11 +13,10 @@
           <v-card flat :color="compostTypeColor(compost.type)">
             <v-img
               class="text-white"
-              :lazy-src="defaultImage"
               max-height="100%"
               max-width="100%"
               min-width="289px"
-              :src="defaultImage"
+              :src="compost.photo.file ? compost.photo.file : defaultImage"
               contain
               gradient="to top right, rgba(0,0,0,.4), rgba(0,0,0,.4)"
             >

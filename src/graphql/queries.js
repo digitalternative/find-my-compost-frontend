@@ -28,6 +28,10 @@ export const MY_COMPOSTS = gql`
           lng
         }
       }
+      photo {
+        filename
+        file
+      }
       phone
       website
       type
@@ -54,6 +58,10 @@ export const COMPOSTS = gql`
           lat
           lng
         }
+      }
+      photo {
+        filename
+        file
       }
       phone
       website

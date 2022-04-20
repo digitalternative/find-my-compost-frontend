@@ -17,6 +17,15 @@
           label="Titre"
           required
         ></v-text-field>
+        <v-select
+          variant="outlined"
+          density="compact"
+          v-model="type"
+          :items="types"
+          :rules="typesRules"
+          label="Type"
+          required
+        ></v-select>
         <v-text-field
           variant="outlined"
           density="compact"
@@ -31,7 +40,10 @@
           @updateAddressDatas="setAddressDatas"
           :address="address"
         />
-        <CompostImageComponent></CompostImageComponent>
+        <CompostImageComponent
+          @updateImageDatas="setImageDatas"
+          :image="image"
+        />
       </v-card-text>
       <v-card-header>
         <v-card-header-text>
@@ -135,6 +147,8 @@ export default {
         "Le site web doit être correct",
     ],
     addressDatas: {},
+    imageDatas: {},
+    image: {},
     address: "",
   }),
   computed: {
@@ -146,8 +160,10 @@ export default {
       this.message.text = [];
     },
     setAddressDatas(addressDatas) {
-      this.address = addressDatas.addressDisplay;
-      this.addressDatas = addressDatas.data;
+      this.addressDatas = addressDatas;
+    },
+    setImageDatas(imageDatas) {
+      this.imageDatas = imageDatas;
     },
     async submitUpdateCompost() {
       const isValid = await this.$refs.form.validate();
@@ -162,6 +178,7 @@ export default {
           website: this.website,
           ...this.addressDatas,
           ...this.addressDatas.coordinates,
+          ...this.imageDatas,
         }).then(() => {
           const route = {
             name: "Compost",
@@ -187,6 +204,7 @@ export default {
           website: this.website,
           user: this.$store.state.user._id,
           ...this.addressDatas,
+          ...this.imageDatas,
         }).then(() => {
           const route = {
             name: "Compost",
@@ -200,6 +218,7 @@ export default {
         });
       }
     },
+
   },
   mounted() {
     if (this.compost) {
@@ -211,6 +230,8 @@ export default {
       this.website = this.compost.website;
       this.addressDatas = this.compost.address;
       this.address = this.compost.address.street;
+      this.imageDatas = this.compost.photo;
+      this.image = this.compost.photo;
     } else if (this.$store.state.user.email) {
       this.email = this.$store.state.user.email;
     }

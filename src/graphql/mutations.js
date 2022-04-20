@@ -63,7 +63,7 @@ export const CREATE_COMPOST = gql`
     $title: String!
     $email: String
     $manager: String!
-    $type: String
+    $type: String!
     $phone: String
     $website: String
     $street: String
@@ -72,6 +72,8 @@ export const CREATE_COMPOST = gql`
     $lat: Float!
     $lng: Float!
     $user: String!
+    $filename: String
+    $file: String
   ) {
     createCompost(
       createCompostInput: [
@@ -88,6 +90,7 @@ export const CREATE_COMPOST = gql`
             zipcode: $zipcode
             coordinates: { lat: $lat, lng: $lng }
           }
+          photo: { file: $file, filename: $filename }
           user: $user
         }
       ]
@@ -120,6 +123,8 @@ export const UPDATE_COMPOST = gql`
     $zipcode: Int
     $lat: Float!
     $lng: Float!
+    $filename: String
+    $file: String
   ) {
     updateCompost(
       updateCompostInput: {
@@ -136,6 +141,7 @@ export const UPDATE_COMPOST = gql`
           zipcode: $zipcode
           coordinates: { lat: $lat, lng: $lng }
         }
+        photo: { file: $file, filename: $filename }
       }
     ) {
       title
