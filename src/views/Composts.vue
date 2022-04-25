@@ -63,7 +63,7 @@
       @click="toggleCompostView"
     >
       <template v-if="compostView">
-        <v-icon v-if="compostView" icon="mdi-map"></v-icon>
+        <v-icon v-if="compostView" class="text-white" icon="mdi-map"></v-icon>
       </template>
       <template v-else>
         <v-icon class="text-white"> mdi-format-list-bulleted-square </v-icon>

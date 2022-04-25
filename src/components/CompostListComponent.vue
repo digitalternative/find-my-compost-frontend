@@ -74,17 +74,21 @@
                 <v-card-actions v-if="filter === 'my'">
                   <v-spacer></v-spacer>
                   <v-btn
+                    size="small"
                     color="info"
-                    icon="mdi-pencil"
-                    size="small"
+                    icon
                     @click="edit(compost._id)"
-                  ></v-btn>
+                  >
+                    <v-icon icon="mdi-pencil" class="text-white" text></v-icon>
+                  </v-btn>
                   <v-btn
-                    color="error"
-                    icon="mdi-delete"
                     size="small"
+                    color="error"
+                    icon
                     @click="remove(compost._id, compost.title)"
-                  ></v-btn>
+                  >
+                    <v-icon icon="mdi-delete" class="text-white" text></v-icon>
+                  </v-btn>
                 </v-card-actions>
                 <p align="center" style="font-size: small">
                   Créer par
