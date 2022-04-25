@@ -39,6 +39,17 @@ export const MY_COMPOSTS = gql`
         username
         email
       }
+      timetable {
+        day
+        start {
+          hours
+          minutes
+        }
+        end {
+          hours
+          minutes
+        }
+      }
     }
   }
 `;
@@ -69,6 +80,17 @@ export const COMPOSTS = gql`
       user {
         username
         email
+      }
+      timetable {
+        day
+        start {
+          hours
+          minutes
+        }
+        end {
+          hours
+          minutes
+        }
       }
     }
   }

@@ -74,6 +74,7 @@ export const CREATE_COMPOST = gql`
     $user: String!
     $filename: String
     $file: String
+    $timetable: [InputTimetable]
   ) {
     createCompost(
       createCompostInput: [
@@ -92,6 +93,7 @@ export const CREATE_COMPOST = gql`
           }
           photo: { file: $file, filename: $filename }
           user: $user
+          timetable: $timetable
         }
       ]
     ) {
@@ -125,6 +127,7 @@ export const UPDATE_COMPOST = gql`
     $lng: Float!
     $filename: String
     $file: String
+    $timetable: [InputTimetable]
   ) {
     updateCompost(
       updateCompostInput: {
@@ -142,6 +145,7 @@ export const UPDATE_COMPOST = gql`
           coordinates: { lat: $lat, lng: $lng }
         }
         photo: { file: $file, filename: $filename }
+        timetable: $timetable
       }
     ) {
       title

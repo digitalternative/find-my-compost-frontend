@@ -3,7 +3,7 @@
     <v-card flat>
       <v-card-header>
         <v-card-header-text>
-          <v-card-subtitle>Informations</v-card-subtitle>
+          <v-card-title>Informations</v-card-title>
         </v-card-header-text>
       </v-card-header>
 
@@ -14,7 +14,7 @@
           v-model="title"
           :counter="20"
           :rules="titleRules"
-          label="Titre"
+          label="Titre *"
           required
         ></v-text-field>
         <v-select
@@ -23,7 +23,7 @@
           v-model="type"
           :items="types"
           :rules="typesRules"
-          label="Type"
+          label="Type *"
           required
         ></v-select>
         <v-text-field
@@ -32,7 +32,7 @@
           v-model="manager"
           :counter="20"
           :rules="managerRules"
-          label="Nom du gestionnaire"
+          label="Nom du gestionnaire *"
           transition="false"
           required
         ></v-text-field>
@@ -45,9 +45,13 @@
           :image="image"
         />
       </v-card-text>
+      <TimeTableComponent
+        @updateTimeTableDatas="setTimeTableDatas"
+        :timetable="timetable"
+      />
       <v-card-header>
         <v-card-header-text>
-          <v-card-subtitle>Contact</v-card-subtitle>
+          <v-card-title>Contact</v-card-title>
         </v-card-header-text>
       </v-card-header>
 
@@ -57,7 +61,7 @@
           density="compact"
           v-model="email"
           :rules="emailRules"
-          label="E-mail"
+          label="E-mail *"
           required
         ></v-text-field>
         <v-text-field
@@ -98,6 +102,7 @@
 <script>
 import AddressComponent from "../components/AddressComponent.vue";
 import CompostImageComponent from "../components/CompostImageComponent.vue";
+import TimeTableComponent from "../components/TimeTableComponent.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -105,6 +110,7 @@ export default {
   components: {
     AddressComponent,
     CompostImageComponent,
+    TimeTableComponent,
   },
   props: {
     compost: {
@@ -130,6 +136,7 @@ export default {
     typesRules: [(v) => !!v || "Le type est requis"],
     email: "",
     emailRules: [
+      (v) => !!v || "L'e-mail est de contact requis",
       (v) =>
         !v ||
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
@@ -146,10 +153,12 @@ export default {
         ) ||
         "Le site web doit être correct",
     ],
-    addressDatas: {},
-    imageDatas: {},
-    image: {},
     address: "",
+    addressDatas: {},
+    image: {},
+    imageDatas: {},
+    timetable: [],
+    timetableDatas: [],
   }),
   computed: {
     ...mapGetters(["compostType", "compostTypeName"]),
@@ -165,6 +174,9 @@ export default {
     setImageDatas(imageDatas) {
       this.imageDatas = imageDatas;
     },
+    setTimeTableDatas(timetableDatas) {
+      this.timetableDatas = timetableDatas;
+    },
     async submitUpdateCompost() {
       const isValid = await this.$refs.form.validate();
       if (isValid.valid) {
@@ -176,6 +188,8 @@ export default {
           email: this.email,
           phone: this.phone,
           website: this.website,
+          timetable: this.timetableDatas,
+          user: this.$store.state.user._id,
           ...this.addressDatas,
           ...this.addressDatas.coordinates,
           ...this.imageDatas,
@@ -202,8 +216,10 @@ export default {
           email: this.email,
           phone: this.phone,
           website: this.website,
+          timetable: this.timetableDatas,
           user: this.$store.state.user._id,
           ...this.addressDatas,
+          ...this.addressDatas.coordinates,
           ...this.imageDatas,
         }).then(() => {
           const route = {
@@ -218,7 +234,6 @@ export default {
         });
       }
     },
-
   },
   mounted() {
     if (this.compost) {
@@ -228,12 +243,13 @@ export default {
       this.email = this.compost.email;
       this.phone = this.compost.phone;
       this.website = this.compost.website;
+      this.timetableDatas = this.compost.timetable;
+      this.timetable = this.compost.timetable;
+      this.address = this.compost.address.street;
       this.addressDatas = this.compost.address;
       this.address = this.compost.address.street;
       this.imageDatas = this.compost.photo;
       this.image = this.compost.photo;
-    } else if (this.$store.state.user.email) {
-      this.email = this.$store.state.user.email;
     }
   },
 };

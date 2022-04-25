@@ -3,7 +3,7 @@
     <v-text-field
       v-model="addressInput"
       :rules="addressRules"
-      label="Adresse"
+      label="Adresse *"
       append-inner-icon="mdi-map-marker-plus"
       required
       variant="outlined"

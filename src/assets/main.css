@@ -142,3 +142,11 @@
 .v-expansion-panel-text__wrapper {
     padding: 0 !important
 }
+
+.time-picker {
+    min-width:110px;
+}
+
+.v-list-item--prepend, .v-list-group__items .v-list-item--prepend {
+    padding-inline-start: calc(16px + 40px + 16px) !important;
+}

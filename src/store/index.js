@@ -45,13 +45,23 @@ export default createStore({
     compostTypeColor: (state) => (type) => {
       return state.compostTypeColortoto[type];
     },
-
     compostFavoriteColor: (state) => (id) => {
       return state.user.favorites.filter((favorite) => {
         return favorite === id;
       })[0]
         ? "#f44336"
         : "default";
+    },
+    days: () => {
+      return [
+        "Lundi",
+        "Mardi",
+        "Mercredi",
+        "Jeudi",
+        "Vendredi",
+        "Samedi",
+        "Dimanche",
+      ];
     },
   },
 
