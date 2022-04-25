@@ -79,7 +79,6 @@
     right: 0;
     z-index: 2;
 }
-
 .mapboxgl-ctrl-bottom-left {
     display: none;
 }
@@ -148,5 +147,23 @@
 }
 
 .v-list-item--prepend, .v-list-group__items .v-list-item--prepend {
-    padding-inline-start: calc(16px + 40px + 16px) !important;
+    padding-inline-start: 40px !important;
+}
+
+.timetable {
+    background: rgba(0, 0, 0, 0) !important;
+    white-space: normal !important;
+    word-break: break-word;
+    font-size: 0.9em;
+}
+
+.timetable td {
+    color: white;
+    white-space: normal !important;
+    word-break: break-word;
+    font-size: 1em !important;
+}
+
+.v-avatar {
+    color: white;
 }

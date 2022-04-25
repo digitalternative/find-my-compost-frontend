@@ -21,9 +21,7 @@
             v-bind="props"
             class="pl-0 text-white"
             prepend-icon="mdi-timetable"
-            two-line
           >
-            <span style="white-space: nowrap"> Horaires&ensp;</span>
             <span v-if="isOpen(compost.timetable)">
               <span class="text-overline text-green">Ouvert</span>
               ⋅&ensp;Ferme à {{ isOpen(compost.timetable) }}</span
@@ -31,14 +29,19 @@
             <span v-else class="text-overline text-red"> Fermé </span>
           </v-list-item>
         </template>
-        <v-list-item
-          class="pl-0 text-white"
-          v-for="item in compost.timetable"
-          :key="item.day"
-        >
-          {{ days[item.day - 1] }}
-          {{ getTimeToString(item.start) }} -
-          {{ getTimeToString(item.end) }}
+
+        <v-list-item class="pl-0 text-white">
+          <v-table density="compact" class="timetable">
+            <tbody>
+              <tr v-for="item in compost.timetable" :key="item.day">
+                <td>{{ days[item.day - 1] }}</td>
+                <td>
+                  {{ getTimeToString(item.start) }} -
+                  {{ getTimeToString(item.end) }}
+                </td>
+              </tr>
+            </tbody>
+          </v-table>
         </v-list-item>
       </v-list-group>
     </v-list>

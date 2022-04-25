@@ -28,14 +28,14 @@
           variant="outlined"
           density="compact"
           v-model="oldPassword"
-          :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-icon="showPassOld ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
-          :type="showPass ? 'text' : 'oldPassword'"
+          :type="showPassOld ? 'text' : 'password'"
           name="input-10-1"
           label="Ancient mot de passe"
           hint="Au moins 8 caractéres"
           counter
-          @click:append="showPass = !showPass"
+          @click:append="showPassOld = !showPassOld"
         ></v-text-field>
         <v-text-field
           variant="outlined"
@@ -144,6 +144,7 @@ export default {
     valid: false,
     showPass: false,
     showPassConfirm: false,
+    showPassOld: false,
     username: "",
     usernameRules: [(v) => !!v || "", (v) => (v && v.length <= 10) || ""],
     email: "",

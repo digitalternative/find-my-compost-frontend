@@ -1,6 +1,6 @@
 <template>
   <template v-if="composts.length > 0">
-    <v-expansion-panels>
+    <v-expansion-panels class="mb-5">
       <v-expansion-panel
         v-for="compost in composts"
         :key="compost.title"

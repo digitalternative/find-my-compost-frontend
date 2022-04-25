@@ -17,7 +17,7 @@
 
     <div id="list" class="tabcontent">
       <div class="v-card-container">
-        <v-card class="my-0 mx-0" flat>
+        <v-card class="my-0 mx-0 mb-5" flat>
           <v-card-header>
             <v-card-title>
               {{ title }}
