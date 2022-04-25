@@ -29,7 +29,7 @@
           density="compact"
           v-model="oldPassword"
           :append-icon="showPassOld ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="passwordRules"
+          :rules="[passwordOldRules]"
           :type="showPassOld ? 'text' : 'password'"
           name="input-10-1"
           label="Ancient mot de passe"
@@ -185,7 +185,15 @@ export default {
       "removeUserCompost",
       "removeUser",
       "signOut",
+      "checkPassword",
     ]),
+    async passwordOldRules() {
+      console.log(this.oldPassword);
+      const res = await this.checkPassword({ password: this.oldPassword });
+
+      if (!res) return await "L'ancient mot de pass n'est pas correct.";
+      return await res;
+    },
     async submitRegisterUser() {
       const isValid = await this.$refs.form.validate();
       if (isValid.valid) {
@@ -221,12 +229,20 @@ export default {
     },
     async submitUpdateUser() {
       const isValid = await this.$refs.form.validate();
+      let inputPasswords = {};
+      if (this.password) {
+        inputPasswords = {
+          password: this.password,
+          passwordConfirm: this.passwordConfirm,
+        };
+      }
       if (isValid.valid) {
         this.updateUser({
           _id: this.user._id,
           username: this.username,
           email: this.email,
           roles: ["user"],
+          ...inputPasswords,
         })
           .then(() => {
             const route = {

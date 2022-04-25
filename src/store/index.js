@@ -1,5 +1,10 @@
 import { createStore } from "vuex";
-import { USER_INFO, COMPOSTS, MY_COMPOSTS } from "@/graphql/queries";
+import {
+  USER_INFO,
+  COMPOSTS,
+  MY_COMPOSTS,
+  CHECK_PASSWORD,
+} from "@/graphql/queries";
 import {
   CREATE_USER,
   REMOVE_USER,
@@ -235,6 +240,15 @@ export default createStore({
       if (res.data.updateUser) {
         await dispatch("getUserInfo", res.data.updateUser.email);
         return await res.data.updateUser.email;
+      }
+    },
+    async checkPassword({ dispatch }, password) {
+      const res = await apolloClient.query({
+        query: CHECK_PASSWORD,
+        variables: password,
+      });
+      if (res.data.checkPassword) {
+        return await res.data.checkPassword;
       }
     },
     async removeUser({ dispatch }, email) {

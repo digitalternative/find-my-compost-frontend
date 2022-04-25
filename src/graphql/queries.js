@@ -11,6 +11,11 @@ export const USER_INFO = gql`
     }
   }
 `;
+export const CHECK_PASSWORD = gql`
+  query checkPassword($password: String!) {
+    checkPassword(password: $password)
+  }
+`;
 
 export const MY_COMPOSTS = gql`
   query {
