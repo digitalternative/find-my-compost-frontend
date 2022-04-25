@@ -20,7 +20,9 @@
                   <v-card-title class="text-h5">Explorer </v-card-title>
 
                   <v-card-subtitle
-                    >Trouver maintenant un compost chez vous et contacter le manager du compost dès maintenant!</v-card-subtitle
+                    >Trouver maintenant un compost près de chez vous et
+                    contacter le manager du compost dès
+                    maintenant!</v-card-subtitle
                   >
 
                   <v-card-actions>
