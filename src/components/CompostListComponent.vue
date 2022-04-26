@@ -1,10 +1,10 @@
 <template>
-  <template v-if="composts.length > 0">
-    <v-expansion-panels class="mb-5">
+  <v-expansion-panels class="mb-5" style="max-width: 868px">
+    <template v-if="composts.length > 0">
       <v-expansion-panel
         v-for="compost in composts"
         :key="compost.title"
-        style="max-width: 600px"
+        min-width="289px"
       >
         <v-expansion-panel-title>
           {{ compost.title }}
@@ -101,11 +101,9 @@
           </v-card>
         </v-expansion-panel-text>
       </v-expansion-panel>
-    </v-expansion-panels>
-  </template>
-  <template v-else>
-    <v-expansion-panels> Aucun compost</v-expansion-panels>
-  </template>
+    </template>
+    <template v-else> Aucun compost </template>
+  </v-expansion-panels>
 
   <ConfirmDialogComponent ref="confirm" />
 </template>
