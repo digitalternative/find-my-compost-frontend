@@ -5,8 +5,8 @@
         <v-avatar v-if="gravatarExist">
           <img :src="gravatar" alt="user profile image" height="40" />
         </v-avatar>
-        <v-avatar color="indigo" v-else>
-          <span class="white--text text-h5">{{ initials }}</span>
+        <v-avatar color="white" v-else>
+          <span class="text-h5">{{ initials }}</span>
         </v-avatar>
       </v-btn>
     </template>

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-layout>
-      <v-app-bar color="primary">
+      <v-app-bar color="secondary">
         <v-app-bar-title>
           <router-link
             style="text-decoration: none"
@@ -48,8 +48,7 @@
       </v-app-bar>
 
       <v-bottom-navigation
-        color="white"
-        bg-color="secondary"
+        color="secondary"
         v-model="bottomNav"
       >
         <v-btn to="/" value="home">

@@ -17,23 +17,21 @@
 
     <div id="list" class="tabcontent">
       <div class="v-card-container">
-        <v-card class="my-0 mx-0 mb-5" flat>
+        <v-card class="my-0 mx-0" flat>
           <v-card-header>
             <v-card-title>
               {{ title }}
             </v-card-title>
           </v-card-header>
-          <v-card-text>
-            <v-container>
-              <CompostListComponent
-                :composts="composts"
-                @flyto="flyto"
-                @refreshComposts="refreshComposts"
-                @setSnackbar="setSnackbar"
-                :key="key"
-              />
-            </v-container>
-          </v-card-text>
+          <v-container class="ma-0 pa-0">
+            <CompostListComponent
+              :composts="composts"
+              @flyto="flyto"
+              @refreshComposts="refreshComposts"
+              @setSnackbar="setSnackbar"
+              :key="key"
+            />
+          </v-container>
         </v-card>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels class="mb-5" style="max-width: 868px">
+  <v-expansion-panels class="mb-10" style="max-width: 868px">
     <template v-if="composts.length > 0">
       <v-expansion-panel
         v-for="compost in composts"
