@@ -1,22 +1,7 @@
 <template>
   <div class="container">
-    <div id="map" class="tabcontent">
-      <div class="v-card-container">
-        <v-card flat>
-          <MapComponent
-            :composts="composts"
-            :isAddCompost="false"
-            :v-if="!composts"
-            :key="key"
-            :compostView="compostView"
-            ref="mapComponent"
-          />
-        </v-card>
-      </div>
-    </div>
-
-    <div id="list" class="tabcontent">
-      <div class="v-card-container">
+    <v-row no-gutters v-resize="onResize">
+      <v-col id="list" cols="12" md="3" class="v-card-container" ref="list">
         <v-card class="my-0 mx-0" flat>
           <v-card-header>
             <v-card-title>
@@ -33,8 +18,20 @@
             />
           </v-container>
         </v-card>
-      </div>
-    </div>
+      </v-col>
+      <v-col cls="12" md="9" class="v-card-container" ref="map">
+        <v-card flat>
+          <MapComponent
+            :composts="composts"
+            :isAddCompost="false"
+            :v-if="!composts"
+            :key="key"
+            :compostView="compostView"
+            ref="mapComponent"
+          />
+        </v-card>
+      </v-col>
+    </v-row>
 
     <CustomSnackBarComponent
       :snackbar="snackbar"
@@ -59,6 +56,7 @@
       icon
       size="large"
       @click="toggleCompostView"
+      v-if="isMobile"
     >
       <template v-if="compostView">
         <v-icon v-if="compostView" class="text-white" icon="mdi-map"></v-icon>
@@ -75,6 +73,7 @@ import MapComponent from "../components/MapComponent.vue";
 import CompostListComponent from "../components/CompostListComponent.vue";
 import CustomSnackBarComponent from "../components/CustomSnackBarComponent.vue";
 import { mapActions, mapGetters } from "vuex";
+import { useDisplay } from "vuetify";
 
 export default {
   name: "composts-view",
@@ -89,11 +88,12 @@ export default {
   },
   data() {
     return {
+      currentTab: "map",
       key: "",
       param: "",
       compostView: false,
       snackbar: {
-        text: "totoooooooo",
+        text: "",
         type: "info",
       },
       title: "",
@@ -106,9 +106,23 @@ export default {
   },
   computed: {
     ...mapGetters(["authStatus", "composts"]),
+    isMobile: function () {
+      const { name } = useDisplay();
+      switch (name.value) {
+        case "xs":
+          return true;
+        case "sm":
+          return true;
+        default:
+          return false;
+      }
+    },
   },
   methods: {
     ...mapActions(["getAllComposts", "getMyComposts", "getFavoritesComposts"]),
+    onResize() {
+      this.openTab(this.currentTab);
+    },
     flyto(location) {
       this.toggleCompostView();
       this.$refs.mapComponent.flytomap(location);
@@ -124,13 +138,10 @@ export default {
       this.compostView = !this.compostView;
     },
     openTab(tab) {
-      let i, tabcontent;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-
-      document.getElementById(tab).style.display = "block";
+      this.currentTab = tab;
+      this.$refs.list.$el.style.display = this.isMobile ? "none" : "block";
+      this.$refs.map.$el.style.display = this.isMobile ? "none" : "block";
+      this.$refs[tab].$el.style.display = "block";
     },
     refreshComposts() {
       this.key = Math.round(Math.random() * 1000);
@@ -153,7 +164,7 @@ export default {
     },
   },
   mounted() {
-    this.openTab("map");
+    this.openTab(this.currentTab);
     if (this.snackbarType && this.snackbarText) {
       this.snackbar.text = this.snackbarText;
       this.snackbar.type = this.snackbarType;

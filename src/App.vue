@@ -47,10 +47,7 @@
         </template>
       </v-app-bar>
 
-      <v-bottom-navigation
-        color="secondary"
-        v-model="bottomNav"
-      >
+      <v-bottom-navigation color="secondary" v-model="bottomNav">
         <v-btn to="/" value="home">
           <v-icon size="24">mdi-home</v-icon>
         </v-btn>
