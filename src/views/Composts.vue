@@ -23,6 +23,7 @@
         <v-card flat>
           <MapComponent
             :composts="composts"
+            @refreshComposts="refreshComposts"
             :isAddCompost="false"
             :v-if="!composts"
             :key="key"

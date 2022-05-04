@@ -2,8 +2,18 @@
   <v-card class="mx-auto my-12" max-width="374">
     <v-card-title>
       <h3>{{ infoData.title }}</h3>
-    </v-card-title>
 
+      <v-spacer></v-spacer>
+
+      <v-btn
+        v-if="authStatus"
+        :color="compostFavoriteColor(infoData._id)"
+        icon="mdi-heart"
+        :id="'favoriteBtn' + infoData._id"
+        flat
+        variant="text"
+      ></v-btn>
+    </v-card-title>
     <v-card-subtitle class="text-high-emphasis text-overline font-weight-bold">
       <v-btn size="x-small" :color="compostTypeColor(infoData.type)">{{
         compostTypeName(infoData.type)
@@ -22,9 +32,7 @@
     <v-divider class="mx-4"></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :id="'itinaryBtn' + infoData._id" color="info">
-        Itinéraire
-      </v-btn>
+      <v-btn :id="'itinaryBtn' + infoData._id" color="info"> Itinéraire </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -41,7 +49,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["compostTypeName", "compostTypeColor"]),
+    ...mapGetters([
+      "authStatus",
+      "compostTypeName",
+      "compostTypeColor",
+      "compostFavoriteColor",
+    ]),
   },
 };
 </script>

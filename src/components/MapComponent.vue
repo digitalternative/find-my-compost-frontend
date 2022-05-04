@@ -44,9 +44,9 @@ export default {
       infoDatas: [],
     };
   },
-  emits: ["clickOnMap"],
+  emits: ["clickOnMap", "refreshComposts"],
   computed: {
-    ...mapGetters(["compostGeojson", "user"]),
+    ...mapGetters(["compostGeojson", "user", "compostFavoriteColor"]),
   },
   props: {
     composts: {
@@ -60,7 +60,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["updateUser"]),
+    ...mapActions(["updateUser", "updateFavorite"]),
     flytomap(location) {
       this.map.flyTo({
         center: [parseFloat(location.lng), parseFloat(location.lat)],
@@ -84,6 +84,15 @@ export default {
         },
       ];
     },
+    updateFavoriteBtn(id) {
+      this.updateFavorite({ _id: id, filter: this.filter }).then((toRemove) => {
+        const favoriteBtn = "favoriteBtn" + id;
+        document.getElementById(favoriteBtn).style.color = toRemove
+          ? ""
+          : this.compostFavoriteColor(id);
+        if (toRemove && this.filter == "fav") this.$emit("refreshComposts");
+      });
+    },
     openBottomSheet(id) {
       this.$refs["bottomSheet" + id][0].open();
     },
@@ -102,6 +111,7 @@ export default {
           for (const compost of this.composts) {
             const mapInfoCard = this.$refs["mapInfoCard" + compost._id][0].$el;
             const itinaryBtn = "itinaryBtn" + compost._id;
+            const favoriteBtn = "favoriteBtn" + compost._id;
             const el = document.createElement("div");
             el.className = "marker-" + compost.type;
             const popup = new AnimatedPopup({
@@ -129,6 +139,12 @@ export default {
                 .setAttribute(
                   "onclick",
                   "openBottomSheet('" + compost._id + "')"
+                );
+              document
+                .getElementById(favoriteBtn)
+                .setAttribute(
+                  "onclick",
+                  "updateFavoriteBtn('" + compost._id + "')"
                 );
             });
           }
@@ -162,7 +178,7 @@ export default {
   },
   created() {
     window.openBottomSheet = this.openBottomSheet;
-    window.updateFavorite = this.updateFavorite;
+    window.updateFavoriteBtn = this.updateFavoriteBtn;
   },
   mounted() {
     this.$nextTick(() => {
@@ -179,6 +195,13 @@ export default {
           this.map.resize();
         }
       },
+    },
+    "$route.params.filter": {
+      handler: function (filter) {
+        this.filter = filter;
+      },
+      deep: true,
+      immediate: true,
     },
   },
 };
