@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels class="mb-10" style="max-width: 868px">
+  <v-expansion-panels class="mb-10">
     <template v-if="composts.length > 0">
       <v-expansion-panel
         v-for="compost in composts"
@@ -15,7 +15,7 @@
               class="text-white"
               max-height="100%"
               max-width="100%"
-              min-width="289px"
+              min-width="240px"
               :src="compost.photo.file ? compost.photo.file : defaultImage"
               contain
               gradient="to top right, rgba(0,0,0,.4), rgba(0,0,0,.4)"

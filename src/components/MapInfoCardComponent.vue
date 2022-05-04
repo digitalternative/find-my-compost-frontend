@@ -22,7 +22,7 @@
     <v-divider class="mx-4"></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :id="'itinaryBtn' + infoData._id" color="info" class="text-white">
+      <v-btn :id="'itinaryBtn' + infoData._id" color="info">
         Itinéraire
       </v-btn>
     </v-card-actions>

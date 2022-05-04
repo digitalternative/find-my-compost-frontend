@@ -4,68 +4,34 @@
       <v-container>
         <v-row dense>
           <v-col cols="12">
-            <v-card color="secondary-darken-1" class="pa-5">
+            <v-card flat class="pa-5">
               <v-img :src="logoTitle" alt="Find My Compost" max-height="400" />
-
-              <v-card-title class="float-right">
-                Trouver votre compost !
-              </v-card-title>
             </v-card>
           </v-col>
 
-          <v-col cols="12">
-            <v-card color="primary">
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
-                  <v-card-title class="text-h5">Explorer </v-card-title>
-
-                  <v-card-subtitle
-                    >Trouver maintenant un compost près de chez vous et
-                    contacter le manager du compost dès
-                    maintenant!</v-card-subtitle
-                  >
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <router-link
-                      style="text-decoration: none"
-                      to="/composts/all"
-                    >
-                      <v-btn color="success" text> Explorer </v-btn>
-                    </router-link>
-                  </v-card-actions>
+          <v-col cols="12" sm="6">
+            <router-link style="text-decoration: none" to="/composts/all">
+              <v-btn color="secondary" height="85" width="100%">
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <v-card-title class="text-h5"> Explorer </v-card-title>
+                  <v-avatar class="ma-3" size="75" rounded="0">
+                    <v-img :src="logo"></v-img>
+                  </v-avatar>
                 </div>
-
-                <v-avatar class="ma-3" size="125" rounded="0">
-                  <v-img :src="logo"></v-img>
-                </v-avatar>
-              </div>
-            </v-card>
+              </v-btn>
+            </router-link>
           </v-col>
-          <v-col cols="12">
-            <v-card color="secondary">
-              <div class="d-flex flex-no-wrap justify-space-between">
-                <div>
+          <v-col cols="12" sm="6">
+            <router-link style="text-decoration: none" to="/login">
+              <v-btn color="tertiary" height="85" width="100%">
+                <div class="d-flex flex-no-wrap justify-space-between">
                   <v-card-title class="text-h5">Contribuer </v-card-title>
-
-                  <v-card-subtitle
-                    >Connecter vous et ajouter votre compost afin d'en faire
-                    profiter la collectivité.</v-card-subtitle
-                  >
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <router-link style="text-decoration: none" to="/login">
-                      <v-btn color="success" text> Se Connecter </v-btn>
-                    </router-link>
-                  </v-card-actions>
+                  <v-avatar class="ma-3" size="75" rounded="0">
+                    <v-img :src="networkPeople"></v-img>
+                  </v-avatar>
                 </div>
-
-                <v-avatar class="ma-3" size="125" rounded="0">
-                  <v-img :src="networkPeople"></v-img>
-                </v-avatar>
-              </div>
-            </v-card>
+              </v-btn>
+            </router-link>
           </v-col>
         </v-row>
       </v-container>

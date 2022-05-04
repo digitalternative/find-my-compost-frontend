@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-layout>
-      <v-app-bar color="secondary">
+      <v-app-bar color="primary">
         <v-app-bar-title>
           <router-link
             style="text-decoration: none"
@@ -47,7 +47,7 @@
         </template>
       </v-app-bar>
 
-      <v-bottom-navigation color="secondary" v-model="bottomNav">
+      <v-bottom-navigation color="tertiary" v-model="bottomNav">
         <v-btn to="/" value="home">
           <v-icon size="24">mdi-home</v-icon>
         </v-btn>
@@ -131,7 +131,9 @@ export default {
     "$route.path": {
       handler: function (path) {
         if (path.split("/").pop()) {
-          this.bottomNav = path.split("/").pop();
+          if (["all", "my", "fav"].includes(path.split("/").pop())) {
+            this.bottomNav = path.split("/").pop();
+          }
         } else {
           this.bottomNav = "home";
         }

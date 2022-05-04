@@ -14,7 +14,7 @@
     <v-list v-if="authStatus" class="pa-2 rounded box-shadow">
       <v-list-item
         active-color="primary"
-        color="secondary"
+        color="primary"
         rounded="xl"
         to="/account"
       >
