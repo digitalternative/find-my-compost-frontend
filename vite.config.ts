@@ -37,8 +37,8 @@ export default defineConfig({
       includeAssets: ["/favicon.png"],
       strategies: "injectManifest",
       manifest: {
-        name: "Test Project",
-        short_name: "Test",
+        name: "Find My Compost",
+        short_name: "Find My Compost",
         theme_color: "#ffffff",
         start_url: "/",
         display: "standalone",
