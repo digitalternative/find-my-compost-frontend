@@ -40,7 +40,4 @@ export const apolloClient = new ApolloClient({
   defaultOptions: {
     fetchPolicy: "no-cache",
   },
-  fetchOptions: {
-    mode: "no-cors",
-  },
 });
