@@ -10,3 +10,5 @@ services:
         image: vuejs-cookbook/dockerize-vuejs-app
         networks:
             - nestjs-network
+networks:
+    nestjs-network:
