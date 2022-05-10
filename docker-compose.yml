@@ -8,3 +8,5 @@ services:
             - '8080:80'
         container_name: find-my-compost-frontend
         image: vuejs-cookbook/dockerize-vuejs-app
+        networks:
+            - nestjs-network
