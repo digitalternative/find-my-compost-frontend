@@ -9,7 +9,7 @@ services:
         container_name: find-my-compost-frontend
         image: vuejs-cookbook/dockerize-vuejs-app
         networks:
-            - vps-network
+            - external
 networks:
-    vps-network:
-        driver: bridge
+    external:
+      name: nestjs-network
