@@ -77,17 +77,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  /* remove the need to specify .vue files https://vitejs.dev/config/#resolve-extensions
-  resolve: {
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ]
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          let extType = assetInfo.name.split(".").at(1);
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = "img";
+          }
+          return `find-my-compost/assets/${extType}/[name]-[hash][extname]`;
+        },
+        chunkFileNames: "find-my-compost/assets/js/[name]-[hash].js",
+        entryFileNames: "find-my-compost/assets/js/[name]-[hash].js",
+      },
+    },
   },
-  */
 });
