@@ -12,4 +12,4 @@ services:
             - external
 networks:
     external:
-      name: nestjs-network
+      name: find-my-compost-backend_nestjs-network
