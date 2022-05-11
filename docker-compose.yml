@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: ./Dockerfile
         ports:
-            - '8080:80'
+            - '8080:8080'
         container_name: find-my-compost-frontend
         image: vuejs-cookbook/dockerize-vuejs-app
         networks:
