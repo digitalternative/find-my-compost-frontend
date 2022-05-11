@@ -77,19 +77,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split(".").at(1);
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = "img";
-          }
-          return `find-my-compost/assets/${extType}/[name]-[hash][extname]`;
-        },
-        chunkFileNames: "find-my-compost/assets/js/[name]-[hash].js",
-        entryFileNames: "find-my-compost/assets/js/[name]-[hash].js",
-      },
-    },
-  },
 });
