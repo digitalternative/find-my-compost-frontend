@@ -4,7 +4,7 @@
       variant="outlined"
       density="compact"
       v-model="username"
-      :counter="10"
+      :counter="20"
       :rules="usernameRules"
       label="Nom d'utilisateur"
       required
