@@ -308,10 +308,6 @@ export default {
     if (this.user) {
       this.username = this.user.username;
       this.email = this.user.email;
-    } else {
-      this.email = "chastre-composte@mail.be";
-      this.password = "@Azerty_123456";
-      this.passwordConfirm = "@Azerty_123456";
     }
   },
 };

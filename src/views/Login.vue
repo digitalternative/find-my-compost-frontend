@@ -143,8 +143,6 @@ export default {
     },
   },
   created() {
-    this.email = "chastre-composte@mail.be";
-    this.password = "@Azerty_123456";
     if (this.$route.query.payload) {
       const payload = JSON.parse(this.$route.query.payload);
       this.setStoreInfo(payload).then(this.redirectAfterLogin());
