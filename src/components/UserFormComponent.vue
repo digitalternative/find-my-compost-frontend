@@ -146,7 +146,7 @@ export default {
     showPassConfirm: false,
     showPassOld: false,
     username: "",
-    usernameRules: [(v) => !!v || "", (v) => (v && v.length <= 10) || ""],
+    usernameRules: [(v) => !!v || "", (v) => (v && v.length <= 20) || ""],
     email: "",
     emailRules: [
       (v) => !!v || "Le courriel est requis",
