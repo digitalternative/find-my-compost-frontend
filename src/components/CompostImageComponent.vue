@@ -64,8 +64,8 @@ export default {
           return (
             !value ||
             !value.length ||
-            value[0].size < 2000000 ||
-            "La taille de la image ne doit pas dépasser 2 MB!"
+            value[0].size < 5000000 ||
+            "La taille de la image ne doit pas dépasser 5 MB!"
           );
         },
       ],
