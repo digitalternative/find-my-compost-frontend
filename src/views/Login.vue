@@ -142,10 +142,12 @@ export default {
       this.$router.push(route);
     },
   },
-  created() {
+  async created() {
     if (this.$route.query.payload) {
       const payload = JSON.parse(this.$route.query.payload);
-      this.setStoreInfo(payload).then(this.redirectAfterLogin());
+      console.log(payload);
+      await this.setStoreInfo(payload);
+      this.redirectAfterLogin();
     }
   },
 };
