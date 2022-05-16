@@ -22,7 +22,7 @@
             </router-link>
           </v-col>
           <v-col cols="12" sm="6">
-            <router-link style="text-decoration: none" to="/login">
+            <router-link style="text-decoration: none" :to="getContributeLink">
               <v-btn color="tertiary" height="85" width="100%">
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <v-card-title class="text-h5">Contribuer </v-card-title>
@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import CustomSnackBarComponent from "../components/CustomSnackBarComponent.vue";
 import logo from "@/assets/logo.svg";
 import logoTitle from "@/assets/logo_title.svg";
@@ -69,6 +70,7 @@ export default {
     networkPeople: networkPeople,
   }),
   computed: {
+    ...mapGetters(["authStatus"]),
     fontSize() {
       const { name } = useDisplay();
       switch (name.value) {
@@ -77,6 +79,9 @@ export default {
         default:
           return "";
       }
+    },
+    getContributeLink() {
+      return this.authStatus ? "/add-compost" : "/login";
     },
   },
   mounted() {
