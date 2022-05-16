@@ -188,7 +188,6 @@ export default {
       "checkPassword",
     ]),
     async passwordOldRules() {
-      console.log(this.oldPassword);
       const res = await this.checkPassword({ password: this.oldPassword });
 
       if (!res) return await "L'ancient mot de pass n'est pas correct.";

@@ -36,6 +36,7 @@ export default defineConfig({
       },
       includeAssets: ["/favicon.png"],
       strategies: "generateSW",
+      registerType: "autoUpdate",
       manifest: {
         name: "Find My Compost",
         short_name: "Find My Compost",

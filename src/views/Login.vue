@@ -145,7 +145,6 @@ export default {
   async created() {
     if (this.$route.query.payload) {
       const payload = JSON.parse(this.$route.query.payload);
-      console.log(payload);
       await this.setStoreInfo(payload);
       this.redirectAfterLogin();
     }
