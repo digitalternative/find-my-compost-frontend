@@ -307,7 +307,7 @@ export default createStore({
       const userInfo = await dispatch("getUserInfo", data.email);
       commit("setStore", { token: data.access_token, user: userInfo });
       await apolloClient.resetStore();
-      return true;
+      return await userInfo;
     },
     async signOut({ commit }) {
       commit("unSetStore");
