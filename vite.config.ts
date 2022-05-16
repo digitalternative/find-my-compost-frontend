@@ -35,7 +35,7 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 5000000,
       },
       includeAssets: ["/favicon.png"],
-      strategies: "injectManifest",
+      strategies: "generateSW",
       manifest: {
         name: "Find My Compost",
         short_name: "Find My Compost",
