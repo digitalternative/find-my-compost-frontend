@@ -10,7 +10,6 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/find-my-compost/",
   plugins: [
     vue(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
@@ -34,7 +33,7 @@ export default defineConfig({
         sourcemap: true,
       },
       srcDir: "src",
-      strategies: "injectManifest",
+      strategies: "generateSW",
       manifest: {
         name: "Find My Compost",
         short_name: "Find My Compost",
@@ -143,8 +142,6 @@ export default defineConfig({
   server: {
     host: true,
     port: 8080,
-    cors: true,
-    https: true,
   },
   define: { "process.env": {} },
   resolve: {

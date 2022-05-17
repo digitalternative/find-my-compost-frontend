@@ -10,6 +10,9 @@ import { loadFonts } from "./plugins/webfontloader";
 
 loadFonts();
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js", { scope: "/" });
+}
 const app = createApp({
   setup() {
     provide(DefaultApolloClient, apolloProvider.apolloClient);
