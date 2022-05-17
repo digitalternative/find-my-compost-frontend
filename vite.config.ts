@@ -10,6 +10,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/find-my-compost/",
   plugins: [
     vue(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
@@ -24,9 +25,16 @@ export default defineConfig({
     }),
     VitePWA({
       filename: "sw.ts",
-      includeManifestIcons: false,
-      injectRegister: false,
+      registerType: "autoUpdate",
       includeAssets: ["/favicon.png"],
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
+        sourcemap: true,
+      },
+      srcDir: "src",
+      strategies: "injectManifest",
       manifest: {
         name: "Find My Compost",
         short_name: "Find My Compost",
@@ -117,11 +125,21 @@ export default defineConfig({
           },
         ],
       },
-      srcDir: "src",
-      strategies: "injectManifest",
     }),
     mkcert(),
   ],
+  build: {
+    chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        }
+      }
+    }
+  },
   server: {
     host: true,
     port: 8080,
@@ -131,6 +149,7 @@ export default defineConfig({
   define: { "process.env": {} },
   resolve: {
     alias: {
+      "~": path.resolve(__dirname, "node_modules"),
       "@": path.resolve(__dirname, "src"),
     },
   },
