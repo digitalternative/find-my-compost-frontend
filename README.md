@@ -6,4 +6,4 @@
 
 ## Android deployment
 bubblewrap init --manifest=https://vps.digitalternative.be/manifest.webmanifest
-https://vps.digitalternative.be/logo_title.png
+https://vps.digitalternative.be/splash.png
