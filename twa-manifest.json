@@ -1,0 +1,43 @@
+{
+  "packageId": "be.digitalternative.findmycompost.twa",
+  "host": "vps.digitalternative.be",
+  "name": "Find My Compost",
+  "launcherName": "My Compost",
+  "display": "standalone",
+  "themeColor": "#002F30",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": true,
+  "startUrl": "/find-my-compost/",
+  "iconUrl": "https://vps.digitalternative.be/splash.png",
+  "maskableIconUrl": "https://vps.digitalternative.be/icon-1024x1024.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/media/boris/Projets/VueJS/find-my-compost/find-my-compost-frontend/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://vps.digitalternative.be/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "orientation": "any",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1"
+}
