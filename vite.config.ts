@@ -41,10 +41,10 @@ export default defineConfig({
           "Application collaborative qui à pour vocation de promouvoir les composts collectifs",
         start_url: "/",
         display: "standalone",
-        background_color: "#ffffff",
+        background_color: "#025959",
         lang: "fr",
         scope: "/",
-        theme_color: "#ffffff",
+        theme_color: "#025959",
         screenshots: [
           {
             src: "/screenshot-1.png",
@@ -93,18 +93,6 @@ export default defineConfig({
             purpose: "maskable any",
           },
           {
-            src: "/icon-144x144.png",
-            sizes: "144x144",
-            type: "image/png",
-            purpose: "maskable any",
-          },
-          {
-            src: "/icon-152x152.png",
-            sizes: "152x152",
-            type: "image/png",
-            purpose: "maskable any",
-          },
-          {
             src: "/icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
@@ -119,6 +107,12 @@ export default defineConfig({
           {
             src: "/icon-512x512.png",
             sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable any",
+          },
+          {
+            src: "/icon-1024x1024.png",
+            sizes: "1024x1024",
             type: "image/png",
             purpose: "maskable any",
           },
