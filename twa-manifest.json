@@ -1,9 +1,9 @@
 {
-  "packageId": "be.digitalternative.findmycompost.twa",
+  "packageId": "be.digitalternative.vps.twa",
   "host": "vps.digitalternative.be",
   "name": "Find My Compost",
   "launcherName": "My Compost",
-  "display": "standalone",
+  "display": "fullscreen",
   "themeColor": "#002F30",
   "navigationColor": "#000000",
   "navigationColorDark": "#000000",
