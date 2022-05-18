@@ -1,5 +1,11 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "be.digitalternative.vps.twa",
-               "sha256_cert_fingerprints": ["C1:B2:9C:57:A1:D3:CF:95:70:46:D3:D0:FF:BC:F9:90:9E:B8:BD:31:4E:71:BB:8A:C0:D5:6C:26:F4:18:20:86"] }
-}]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "be.digitalternative.vps.twa",
+      "sha256_cert_fingerprints":
+        ["C1:B2:9C:57:A1:D3:CF:95:70:46:D3:D0:FF:BC:F9:90:9E:B8:BD:31:4E:71:BB:8A:C0:D5:6C:26:F4:18:20:86"]
+    }
+  }
+]
