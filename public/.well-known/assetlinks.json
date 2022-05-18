@@ -1,0 +1,9 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "be.digitalternative.vps.twa",
+      "sha256_cert_fingerprints":
+      ["16:21:C6:1B:A2:4E:8E:9A:37:50:92:5B:FD:B9:73:46:28:D6:6A:9F:DB:E7:42:B9:6B:A9:5F:70:AB:AA:75:DB"]
+    }
+  }]
