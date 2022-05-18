@@ -41,10 +41,10 @@ export default defineConfig({
           "Application collaborative qui à pour vocation de promouvoir les composts collectifs",
         start_url: "/",
         display: "standalone",
-        background_color: "#025959",
+        background_color: "#ffffff",
         lang: "fr",
         scope: "/",
-        theme_color: "#025959",
+        theme_color: "#002f30",
         screenshots: [
           {
             src: "/screenshot-1.png",
