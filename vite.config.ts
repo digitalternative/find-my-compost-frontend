@@ -39,7 +39,7 @@ export default defineConfig({
         short_name: "Find My Compost",
         description:
           "Application collaborative qui à pour vocation de promouvoir les composts collectifs",
-        start_url: "/",
+        start_url: "/find-my-compost/",
         display: "standalone",
         background_color: "#ffffff",
         lang: "fr",
