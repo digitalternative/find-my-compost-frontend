@@ -11,7 +11,7 @@
       label="Photo"
       density="compact"
       clearable
-      @change="openCropDialog"
+      @change="compressImage"
       @click:clear="reset"
     ></v-file-input>
     <v-img v-if="previewImage" :src="previewImage"></v-img>
@@ -119,7 +119,7 @@ export default {
     },
     cropImage() {
       const { canvas } = this.$refs.cropper.getResult();
-      // TODO: improve space by using blob
+      // @TODO: improve space by using blob
       // canvas.toBlob((blob) => {
       //   this.imageDatas = {
       //     filename: this.imageInput[0].name,
