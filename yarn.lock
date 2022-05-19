@@ -2315,11 +2315,6 @@
   dependencies:
     "fill-range" "^7.0.1"
 
-"browser-image-compression@^1.0.13":
-  "integrity" "sha512-Rg/xgEKGobh+MnB/izOgqHjNbRFOWgfIVwHDG1L18O5+X0y08mUcnMe2JOWav9c+pZWFQ95F4/KBStBZwujXAQ=="
-  "resolved" "https://registry.npmjs.org/browser-image-compression/-/browser-image-compression-1.0.13.tgz"
-  "version" "1.0.13"
-
 "browserslist@^4.20.2", "browserslist@^4.20.3":
   "integrity" "sha512-NBhymBQl1zM0Y5dQT/O+xiLP9/rzOIQdKM/eMJBAq7yBgaB6krIYLGejrwVYnSHZdqjscB1SPuAjHwxjvN6Wdg=="
   "resolved" "https://registry.npmjs.org/browserslist/-/browserslist-4.20.3.tgz"
@@ -3732,6 +3727,11 @@
     "lodash" "~4.17.10"
     "minimatch" "~3.0.2"
 
+"glur@^1.1.2":
+  "integrity" "sha1-8g6jbbEDv8KSNDkh8fkeg8NGdok="
+  "resolved" "https://registry.npmjs.org/glur/-/glur-1.1.2.tgz"
+  "version" "1.1.2"
+
 "graceful-fs@^4.1.6", "graceful-fs@^4.2.0", "graceful-fs@^4.2.6":
   "integrity" "sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.9.tgz"
@@ -4801,6 +4801,14 @@
   "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   "version" "2.1.2"
 
+"multimath@^2.0.0":
+  "integrity" "sha512-toRx66cAMJ+Ccz7pMIg38xSIrtnbozk0dchXezwQDMgQmbGpfxjtv68H+L00iFL8hxDaVjrmwAFSb3I6bg8Q2g=="
+  "resolved" "https://registry.npmjs.org/multimath/-/multimath-2.0.0.tgz"
+  "version" "2.0.0"
+  dependencies:
+    "glur" "^1.1.2"
+    "object-assign" "^4.1.1"
+
 "murmurhash-js@^1.0.0":
   "integrity" "sha1-sGJ44h/Gw3+lMTcysEEry2rhX1E="
   "resolved" "https://registry.npmjs.org/murmurhash-js/-/murmurhash-js-1.0.0.tgz"
@@ -5133,6 +5141,16 @@
   "integrity" "sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns="
   "resolved" "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz"
   "version" "2.1.0"
+
+"pica@^9.0.1":
+  "integrity" "sha512-v0U4vY6Z3ztz9b4jBIhCD3WYoecGXCQeCsYep+sXRefViL+mVVoTL+wqzdPeE+GpBFsRUtQZb6dltvAt2UkMtQ=="
+  "resolved" "https://registry.npmjs.org/pica/-/pica-9.0.1.tgz"
+  "version" "9.0.1"
+  dependencies:
+    "glur" "^1.1.2"
+    "multimath" "^2.0.0"
+    "object-assign" "^4.1.1"
+    "webworkify" "^1.5.0"
 
 "picocolors@^1.0.0":
   "integrity" "sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ=="
@@ -6809,6 +6827,11 @@
   "integrity" "sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg=="
   "resolved" "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-4.0.2.tgz"
   "version" "4.0.2"
+
+"webworkify@^1.5.0":
+  "integrity" "sha512-AMcUeyXAhbACL8S2hqqdqOLqvJ8ylmIbNwUIqQujRSouf4+eUFaXbG6F1Rbu+srlJMmxQWsiU7mOJi0nMBfM1g=="
+  "resolved" "https://registry.npmjs.org/webworkify/-/webworkify-1.5.0.tgz"
+  "version" "1.5.0"
 
 "whatwg-url@^5.0.0":
   "integrity" "sha1-lmRU6HZUYuN2RNNib2dCzotwll0="

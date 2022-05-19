@@ -7,7 +7,7 @@
         </v-card-header-text>
       </v-card-header>
 
-      <v-card-text>
+      <v-card-text >
         <v-text-field
           variant="outlined"
           density="compact"
