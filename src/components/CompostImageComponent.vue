@@ -15,7 +15,12 @@
     show-size
   ></v-file-input>
   <v-layout justify-center>
-    <v-img v-if="previewImage" :src="previewImage" max-width="640"></v-img>
+    <v-img
+      v-if="previewImage"
+      :src="previewImage"
+      max-width="640"
+      class="mx-auto"
+    ></v-img>
   </v-layout>
 
   <v-dialog
