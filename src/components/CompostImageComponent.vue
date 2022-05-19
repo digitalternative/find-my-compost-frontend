@@ -45,6 +45,7 @@
 <script>
 import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
+import imageCompression from "browser-image-compression";
 
 export default {
   name: "compost-image-component",
@@ -78,13 +79,38 @@ export default {
     };
   },
   methods: {
-    openCropDialog(event) {
-      this.reset();
-      this.selectedImageUrl = URL.createObjectURL(event.target.files[0]);
+    openCropDialog(image) {
+      this.selectedImageUrl = URL.createObjectURL(image);
       this.cropDialog = true;
     },
     closeCropDialog() {
       this.cropDialog = false;
+    },
+    async compressImage(event) {
+      this.reset();
+      const imageFile = event.target.files[0];
+      console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
+      console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      try {
+        const compressedFile = await imageCompression(imageFile, options);
+        console.log(
+          "compressedFile instanceof Blob",
+          compressedFile instanceof Blob
+        ); // true
+        console.log(
+          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+        ); // smaller than maxSizeMB
+
+        await this.openCropDialog(compressedFile);
+      } catch (error) {
+        console.log(error);
+      }
     },
     reset() {
       this.previewImage = "";
