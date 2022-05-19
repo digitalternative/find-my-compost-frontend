@@ -1,6 +1,6 @@
 {
   "name": "find-my-compost-ts",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "scripts": {
     "serve": "vite preview",
     "build": "vite build",
