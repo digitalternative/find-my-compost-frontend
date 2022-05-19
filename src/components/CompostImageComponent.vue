@@ -35,7 +35,6 @@
     </v-toolbar>
     <v-card flat>
       <cropper
-        minHeight="640"
         :stencil-props="{ aspectRatio: 640 / 427 }"
         ref="cropper"
         class="photo-cropper"
