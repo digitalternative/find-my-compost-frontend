@@ -28,41 +28,41 @@
           variant="outlined"
           density="compact"
           v-model="oldPassword"
-          :append-icon="showPassOld ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-inner-icon="showPassOld ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="[passwordOldRules]"
           :type="showPassOld ? 'text' : 'password'"
           name="input-10-1"
           label="Ancient mot de passe"
           hint="Au moins 8 caractéres"
           counter
-          @click:append="showPassOld = !showPassOld"
+          @click:append-inner="showPassOld = !showPassOld"
         ></v-text-field>
         <v-text-field
           variant="outlined"
           density="compact"
           v-model="password"
-          :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="passwordRules"
           :type="showPass ? 'text' : 'password'"
           name="input-10-1"
           label="Nouveau mot de passe"
           hint="Au moins 8 caractéres"
           counter
-          @click:append="showPass = !showPass"
+          @click:append-inner="showPass = !showPass"
         ></v-text-field>
 
         <v-text-field
           variant="outlined"
           density="compact"
           v-model="passwordConfirm"
-          :append-icon="showPassConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+          :append-inner-icon="showPassConfirm ? 'mdi-eye' : 'mdi-eye-off'"
           :rules="[passwordConfirmRules]"
           :type="showPassConfirm ? 'text' : 'password'"
           name="input-10-1"
           label="Confirmation du mot de passe"
           hint="Au moins 8 caractéres"
           counter
-          @click:append="showPassConfirm = !showPassConfirm"
+          @click:append-inner="showPassConfirm = !showPassConfirm"
         ></v-text-field>
       </template>
     </template>
@@ -71,28 +71,28 @@
         variant="outlined"
         density="compact"
         v-model="password"
-        :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
         :type="showPass ? 'text' : 'password'"
         name="input-10-1"
         label="Mot de passe"
         hint="Au moins 8 caractéres"
         counter
-        @click:append="showPass = !showPass"
+        @click:append-inner="showPass = !showPass"
       ></v-text-field>
 
       <v-text-field
         variant="outlined"
         density="compact"
         v-model="passwordConfirm"
-        :append-icon="showPassConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-inner-icon="showPassConfirm ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="[passwordConfirmRules]"
         :type="showPassConfirm ? 'text' : 'password'"
         name="input-10-1"
         label="Confirmation du mot de passe"
         hint="Au moins 8 caractéres"
         counter
-        @click:append="showPassConfirm = !showPassConfirm"
+        @click:append-inner="showPassConfirm = !showPassConfirm"
       ></v-text-field>
     </template>
 

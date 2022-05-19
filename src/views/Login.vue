@@ -63,12 +63,13 @@
               <v-text-field
                 variant="outlined"
                 density="compact"
+                :append-inner-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append-inner="showPass = !showPass"
                 v-model="password"
                 label="Mot de passe"
-                type="password"
+                :type="showPass ? 'text' : 'password'"
                 required
               ></v-text-field>
-
               <p class="hint-text" align="center">
                 <router-link
                   class="nav-link active"
@@ -98,6 +99,7 @@ export default {
 
   data() {
     return {
+      showPass: false,
       error: "",
       email: "",
       password: "",
