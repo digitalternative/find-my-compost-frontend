@@ -98,6 +98,8 @@ export default {
       const pica = new Pica();
       const { canvas } = this.$refs.cropper.getResult();
       const resultCanvas = document.createElement("canvas");
+      resultCanvas.width = 640;
+      resultCanvas.height = 427;
       // TODO: improve space by using blob
       // canvas.toBlob((blob) => {
       //   this.imageDatas = {
