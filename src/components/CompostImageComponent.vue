@@ -1,51 +1,54 @@
 <template>
-  <div>
-    <v-file-input
-      v-model="imageInput"
-      variant="outlined"
-      :rules="imageRules"
-      accept="image/*"
-      placeholder="Choisir une photo."
-      append-inner-icon="mdi-camera"
-      prepend-icon=""
-      label="Photo"
-      density="compact"
-      clearable
-      @change="compressImage"
-      @click:clear="reset"
-    ></v-file-input>
-    <v-img v-if="previewImage" :src="previewImage"></v-img>
-    <v-dialog
-      v-model="cropDialog"
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
-      <v-toolbar dark color="primary">
-        <v-btn icon dark @click="closeCropDialog">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Photo</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn dark text @click="cropImage"> Recadrer </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-card flat>
-        <cropper
-          :stencil-props="{ aspectRatio: 640 / 427 }"
-          ref="cropper"
-          class="photo-cropper"
-          :src="selectedImageUrl"
-        />
-      </v-card>
-    </v-dialog>
-  </div>
+  <v-file-input
+    v-model="imageInput"
+    variant="outlined"
+    :rules="imageRules"
+    accept="image/*"
+    placeholder="Choisir une photo."
+    append-inner-icon="mdi-camera"
+    prepend-icon=""
+    label="Photo"
+    density="compact"
+    clearable
+    @change="openCropDialog"
+    @click:clear="reset"
+    show-size
+  ></v-file-input>
+  <v-layout justify-center>
+    <v-img v-if="previewImage" :src="previewImage" max-width="640"></v-img>
+  </v-layout>
+
+  <v-dialog
+    v-model="cropDialog"
+    fullscreen
+    transition="dialog-bottom-transition"
+  >
+    <v-toolbar dark color="primary">
+      <v-btn icon dark @click="closeCropDialog">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Photo</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn dark text @click="cropImage"> Recadrer </v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-card flat>
+      <cropper
+        minHeight="640"
+        :stencil-props="{ aspectRatio: 640 / 427 }"
+        ref="cropper"
+        class="photo-cropper"
+        :src="selectedImageUrl"
+      />
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 import { Cropper } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
-import imageCompression from "browser-image-compression";
+import Pica from "pica";
 
 export default {
   name: "compost-image-component",
@@ -79,47 +82,24 @@ export default {
     };
   },
   methods: {
-    openCropDialog(image) {
-      this.selectedImageUrl = URL.createObjectURL(image);
+    openCropDialog(event) {
+      this.reset();
+      this.selectedImageUrl = URL.createObjectURL(event.target.files[0]);
       this.cropDialog = true;
     },
     closeCropDialog() {
       this.cropDialog = false;
-    },
-    async compressImage(event) {
-      this.reset();
-      const imageFile = event.target.files[0];
-      console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
-      console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1920,
-        useWebWorker: true,
-      };
-      try {
-        const compressedFile = await imageCompression(imageFile, options);
-        console.log(
-          "compressedFile instanceof Blob",
-          compressedFile instanceof Blob
-        ); // true
-        console.log(
-          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        ); // smaller than maxSizeMB
-
-        await this.openCropDialog(compressedFile);
-      } catch (error) {
-        console.log(error);
-      }
     },
     reset() {
       this.previewImage = "";
       this.imageDatas.filename = "";
       this.imageDatas.file = "";
     },
-    cropImage() {
+    async cropImage() {
+      const pica = new Pica();
       const { canvas } = this.$refs.cropper.getResult();
-      // @TODO: improve space by using blob
+      const resultCanvas = document.createElement("canvas");
+      // TODO: improve space by using blob
       // canvas.toBlob((blob) => {
       //   this.imageDatas = {
       //     filename: this.imageInput[0].name,
@@ -127,13 +107,22 @@ export default {
       //   };
       //   this.$emit("updateImageDatas", this.imageDatas);
       // });
+      await pica.resize(canvas, resultCanvas, {
+        unsharpAmount: 160,
+        unsharpRadius: 0.6,
+        unsharpThreshold: 1,
+      });
       this.imageDatas = {
         filename: this.imageInput[0].name,
-        file: canvas.toDataURL("image/jpeg"),
+        file: resultCanvas.toDataURL("image/jpeg"),
       };
       this.$emit("updateImageDatas", this.imageDatas);
-      this.previewImage = canvas.toDataURL("image/jpeg");
+      this.setPreviewImage(this.imageDatas.file, this.imageDatas.filename);
       this.cropDialog = false;
+    },
+    setPreviewImage(file, filename) {
+      this.previewImage = file;
+      this.imageInput[0] = this.dataURLtoFile(file, filename);
     },
     dataURLtoFile(dataurl, filename) {
       var arr = dataurl.split(","),
@@ -152,8 +141,7 @@ export default {
   watch: {
     image() {
       const image = this.$props.image;
-      this.previewImage = image.file;
-      this.imageInput[0] = this.dataURLtoFile(image.file, image.filename);
+      this.setPreviewImage(image.file, image.filename);
     },
   },
 };
