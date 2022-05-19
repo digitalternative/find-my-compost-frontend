@@ -11,7 +11,7 @@ import { loadFonts } from "./plugins/webfontloader";
 loadFonts();
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js", { scope: "/" });
+  navigator.serviceWorker.register("/sw.js", { scope: "/find-my-compost/" });
 }
 const app = createApp({
   setup() {
